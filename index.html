@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/index.css">
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+</head>
+<body>
+<div class="containt">
+    <h2>日记本</h2>
+    <div id="input">
+        <i>|</i>
+    </div>
+    <input style="opacity: 0" autofocus="autofocus" id="hiddenInput" type="text">
+</div>
+</body>
+<script>
+
+    $(function () {
+        //input自动获取焦点
+        var active=true;
+        //获取焦点
+        $('#input').on('click',function (e) {
+            e.stopPropagation()
+            active=true;
+            $(this).find('i').addClass('active').removeClass('hidden')
+            $('#hiddenInput').focus()
+        })
+        //失去焦点
+        $('body').on('click',function (e) {
+            e.stopPropagation()
+            active=false;
+            $(this).find('i').removeClass('active').addClass('hidden')
+        })
+        //监听输入，将文字显示到输入框
+        $('#hiddenInput').on('input',function () {
+            console.log('<span>'+$(this).val().split('').join('</span><span>')+'</span>');
+            $('#input').html('<i>|</i>')
+            $('#input').prepend('<span>'+$(this).val().split('').join('</span><span>')+'</span>')
+            $.each($('#input span'),function (index,el) {
+                if(index<=$('#input span').length-18){
+                    $(el).addClass('textHidden2')
+                }
+            })
+        })
+        //移入显示文字
+        $('#input').on('mouseenter',function () {
+            $(this).find('span').removeClass('textHidden textHidden2')
+        })
+        //移除隐藏文字
+        $('#input').on('mouseleave',function () {
+            $.each($('#input span'),function (index,el) {
+                if(index<=$('#input span').length-18){
+                    $(el).addClass('textHidden')
+                }
+            })
+        })
+    })
+    // 作者：Amumuer
+</script>
+</html>
