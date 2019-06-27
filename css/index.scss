@@ -21,6 +21,11 @@ a,span,div,input{
 }
 .containt{
   text-align: center;
+  .status{
+    text-align: right;
+    width: 1152px;
+    padding-bottom: 5px;
+  }
   #input{
     color: #ffffff;
     padding: 15px;
@@ -29,7 +34,6 @@ a,span,div,input{
     span{
     }
     .textHidden{
-      animation:hidden 1s;
       opacity: 0;
     }
     .textHidden2{
@@ -65,4 +69,8 @@ a,span,div,input{
       }
     }
   }
+}
+h1{
+  margin-top: 30px;
+  margin-bottom: 20px;
 }

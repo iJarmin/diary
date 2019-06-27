@@ -8,7 +8,10 @@
 </head>
 <body>
 <div class="containt">
-    <h2>日记本</h2>
+    <h1>DIARY</h1>
+    <div class="status">
+        <span id="status">输入中...</span>
+    </div>
     <div id="input">
         <i>|</i>
     </div>
@@ -20,6 +23,12 @@
     $(function () {
         //input自动获取焦点
         var active=true;
+        var timer;
+        var mouseFlag;
+        if(window.localStorage.getItem('content')){
+            $('#hiddenInput').val(window.localStorage.getItem('content'))
+
+        }
         //获取焦点
         $('#input').on('click',function (e) {
             e.stopPropagation()
@@ -35,28 +44,42 @@
         })
         //监听输入，将文字显示到输入框
         $('#hiddenInput').on('input',function () {
-            console.log('<span>'+$(this).val().split('').join('</span><span>')+'</span>');
-            $('#input').html('<i>|</i>')
+            $('#input').html('')
             $('#input').prepend('<span>'+$(this).val().split('').join('</span><span>')+'</span>')
+            $('#input').append('<i>|</i>')
+            $('#status').text('输入中...')
+            clearTimeout(timer)
+            timer=setTimeout(function () {
+                window.localStorage.setItem('content',$('#input').text().substring(0,$('#input').text().length-1))
+                $('#status').text('已保存')
+
+            },1000)
+            if(mouseFlag){
+                return;
+            }
             $.each($('#input span'),function (index,el) {
                 if(index<=$('#input span').length-18){
                     $(el).addClass('textHidden2')
                 }
             })
         })
-        //移入显示文字
+        //移入隐藏文字
         $('#input').on('mouseenter',function () {
-            $(this).find('span').removeClass('textHidden textHidden2')
-        })
-        //移除隐藏文字
-        $('#input').on('mouseleave',function () {
+            mouseFlag=false;
             $.each($('#input span'),function (index,el) {
                 if(index<=$('#input span').length-18){
                     $(el).addClass('textHidden')
                 }
             })
+
+        })
+        //移除显示文字
+        $('#input').on('mouseleave',function () {
+            mouseFlag=true;
+            $(this).find('span').removeClass('textHidden textHidden2')
+
         })
     })
-    // 作者：Amumuer
+    // 作者：iJarmin
 </script>
 </html>
